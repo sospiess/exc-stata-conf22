@@ -1,0 +1,48 @@
+<<dd_version: 2>>
+# COVID Brief EU Countries
+
+_Period: <<dd_display: `2'>>.20<<dd_display: `1'>>_
+
+
+## Preamble
+This brief provides an update on the trend in confirmed COVID-19 cases across EU
+countries plus Switzerland and the United Kingdom.
+
+--------------------------------------------------
+
+## Content
+
+### 1. Country trends
+In the current month the country trends look as follows:
+
+<<dd_graph: saving(../images/total-countries.png) graphname(Graph) replace>>
+
+_Fig. 1: Trend in confirmed cases_
+
+
+### 2. Comparison highest vs. lowest
+<<dd_do: quietly>>
+keep if year == `1' & month == `2'
+<</dd_do>>
+
+
+#### 2.1 Top 5
+The five countries with the overall highest number of confirmed cases are:
+<<dd_do: quietly>>
+gsort - cases_confirmed
+<</dd_do>>
+<<dd_do: nocommands>>
+list country cases_confirmed in 1/5, clean noobs abbreviate(15)
+<</dd_do>>
+
+
+
+
+#### 2.2 Bottom 5
+The five countries with the overall lowest number of confirmed cases are:
+<<dd_do: quietly>>
+gsort + cases_confirmed
+<</dd_do>>
+<<dd_do: nocommands>>
+list country cases_confirmed in 1/5, clean noobs abbreviate(15)
+<</dd_do>> 

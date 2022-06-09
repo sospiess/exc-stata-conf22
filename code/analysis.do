@@ -14,7 +14,7 @@ xtline cases_confirmed, ///
     // note("EU countries plus Switzerland and United Kingdom" "Source: John Hopkins")
     
     
-graph save "../images/total-countries-2022-04.svg", replace
+// graph save "../images/total-countries-2022-04.svg", replace
 
     
 
@@ -25,11 +25,19 @@ graph save "../images/total-countries-2022-04.svg", replace
 **## Top 5 most cases
 *--------------------
 gsort - year - month - cases_confirmed
-list country in 1/5, clean noobs    
+list country cases_confirmed in 1/5, clean noobs    
 
 
 **## Top 5 least cases
 *--------------------    
 gsort - year - month + cases_confirmed
-list country in 1/5, clean noobs    
+list country cases_confirmed in 1/5, clean noobs    
 
+
+
+
+**## Create dynamic document
+*===========================
+dyndoc "../templates/_template-COVID-brief.domd" 22 03,  ///
+    saving(../reports/COVID-brief 2022-04.html) replace  ///
+    embedimage
