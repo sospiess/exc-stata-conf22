@@ -1,0 +1,133 @@
+{smcl}
+{com}{sf}{ul off}{txt}{.-}
+      name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Sven\exc-stata-conf22\code\../logs/make-report 2022-3.smcl
+  {txt}log type:  {res}smcl
+ {txt}opened on:  {res}20 Jun 2022, 12:33:41
+{txt}
+{com}. 
+. di "{c -(}txt{c )-}Do-file version: $v"
+{res}{txt}Do-file version: 1.1.0
+
+{com}. set scheme s1color
+{txt}
+{com}. 
+. use "../data/covid19_eu-ch-uk_monthly-ts.dta"
+{txt}
+{com}. local begin = monthly("$yy $mm", "YM", 2099)-5  // restrict to 6 months range
+{txt}
+{com}. local end   = monthly("$yy $mm", "YM", 2099)    // no months after end date
+{txt}
+{com}. keep if date >= `begin'
+{txt}(252 observations deleted)
+
+{com}. drop if date >  `end'
+{txt}(28 observations deleted)
+
+{com}. format %tmn-Y date
+{txt}
+{com}. 
+. 
+. 
+. **# Plot Country Trends
+. *======================
+. xtline cases_confirmed, ///
+>     ytitle("Confirmed cases")  ylabel(0 (20000000) 40000000, angle(0)) ///
+>     ytick(0 (10000000) 40000000, grid gmax) ///
+>     xtitle("Month (end)") xlabel(`=`begin'+1'(2)`end', gmax) xtick(#6, grid gmin gmax)  ///
+>     lwidth(*1.5)  ///
+>     plotregion(margin(b = 0))  ///
+>     byopts( ///
+>         title("Development of Confirmed COVID-19 Cases", span) ///
+>         note("EU countries plus Switzerland and United Kingdom. Source: John Hopkins"))
+{res}{txt}
+{com}. 
+. 
+. graph export "../images/total-countries-20${c -(}yy{c )-}-${c -(}mm{c )-}.svg", replace
+{txt}{p 0 4 2}
+file {bf}
+../images/total-countries-2022-3.svg{rm}
+saved as
+SVG
+format
+{p_end}
+
+{com}. 
+. 
+. 
+. 
+. **# Country Ranking
+. *==================
+. 
+. label variable country "Country"
+{txt}
+{com}. label variable cases_confirmed  "Confirmed Cases (total)"
+{txt}
+{com}. 
+. 
+. **## Top 5 most cases
+. *--------------------
+. gsort - year - month - cases_confirmed
+{txt}
+{com}. list country cases_confirmed in 1/5, clean noobs
+{txt}
+    {res}       country   cases_co~d {txt} 
+    {res}        France   24,921,161 {txt} 
+    {res}       Germany   21,357,095 {txt} 
+    {res}United Kingdom   21,147,425 {txt} 
+    {res}         Italy   14,642,354 {txt} 
+    {res}         Spain   11,508,309 {txt} 
+
+{com}. 
+. 
+. **## Top 5 least cases
+. *--------------------
+. gsort - year - month + cases_confirmed
+{txt}
+{com}. list country cases_confirmed in 1/5, clean noobs
+{txt}
+    {res}   country   cases_~d {txt} 
+    {res}     Malta     79,539 {txt} 
+    {res}Luxembourg    215,831 {txt} 
+    {res}    Cyprus    430,726 {txt} 
+    {res}   Estonia    556,304 {txt} 
+    {res}    Latvia    798,895 {txt} 
+
+{com}. 
+. 
+. 
+. 
+. **## Create dynamic document
+. *===========================
+. dyndoc "../templates/_template-COVID-brief.domd" $yy $mm,  ///
+>     saving(../reports/COVID-brief 20${c -(}yy{c )-}-${c -(}mm{c )-}.html) replace  ///
+>     embedimage
+{res}{txt}    {res}        France   24,921,161 {txt} 
+    {res}       Germany   21,357,095 {txt} 
+    {res}United Kingdom   21,147,425 {txt} 
+    {res}         Italy   14,642,354 {txt} 
+    {res}         Spain   11,508,309 {txt} 
+
+    {res}     Malta     79,539 {txt} 
+    {res}Luxembourg    215,831 {txt} 
+    {res}    Cyprus    430,726 {txt} 
+    {res}   Estonia    556,304 {txt} 
+    {res}    Latvia    798,895 {txt} 
+
+{res}successfully converted {browse "file:/C:/Users/Sven/exc-stata-conf22/reports/COVID-brief%202022-3.html":"C:/Users/Sven/exc-stata-conf22/reports/COVID-brief 2022-3.html"}
+{txt}
+{com}. 
+. capture erase "../images/total-countries.png"
+{txt}
+{com}. 
+. 
+. 
+. ********************************************************************************
+. log close
+      {txt}name:  {res}<unnamed>
+       {txt}log:  {res}C:\Users\Sven\exc-stata-conf22\code\../logs/make-report 2022-3.smcl
+  {txt}log type:  {res}smcl
+ {txt}closed on:  {res}20 Jun 2022, 12:33:55
+{txt}{.-}
+{smcl}
+{txt}{sf}{ul off}
