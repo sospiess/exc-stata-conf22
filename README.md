@@ -8,9 +8,14 @@ This repository contains a sample solution to the exercise for creating (very) b
 
 
 ## Usage notes
-Execute the do-file `code/make-report.do` to create dynamic reports. To specify year and month of the respective report issue two arguments of the `dyndoc` command  in numeric format in order YY MM, e.g.:  
-<pre><code>. dyndoc "<em>path/to/template.domd</em>" <strong>22 04</strong>, saving(<em>path/to/target.html</em>)
-</code></pre>
+Execute the do-file `code/make-report.do` to create (dynamic) reports. Select year and month of the report with the two respective global macros `yy` and `mm` at the top of the do file:
+```
+**# Set Report Date
+*==================
+global v  = "1.1.0"   // 2022-06-20, by: Sven Spieß
+global yy = 22
+global mm = 04
+```
 
 
 ---

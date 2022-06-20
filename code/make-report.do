@@ -4,9 +4,10 @@ clear all
 
 
 **# Set Report Date
-global v  = "1.1.0"   // 2022-06-17, by: Sven Spieß
-global yy = 21
-global mm = 12
+*==================
+global v  = "1.1.0"   // 2022-06-20, by: Sven Spieß
+global yy = 22
+global mm = 04
 
 
 
@@ -28,6 +29,7 @@ local end   = monthly("$yy $mm", "YM", 2099)    // no months after end date
 keep if date >= `begin'
 drop if date >  `end'
 format %tmn-Y date
+
 
 
 
@@ -77,6 +79,7 @@ dyndoc "../templates/_template-COVID-brief.domd" $yy $mm,  ///
     embedimage
 
 capture erase "../images/total-countries.png"
+
 
 
 
